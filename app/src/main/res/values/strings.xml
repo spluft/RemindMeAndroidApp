@@ -2,4 +2,7 @@
     <string name="app_name">RemindMeAndroidApp</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="search_title">Search</string>
+
+    <!--navigation menu-->
+    <string name="menu_item_notification">Напоминания</string>
 </resources>
