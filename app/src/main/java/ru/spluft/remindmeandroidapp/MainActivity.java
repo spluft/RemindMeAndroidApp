@@ -1,11 +1,14 @@
 package ru.spluft.remindmeandroidapp;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -73,5 +76,28 @@ public class MainActivity extends AppCompatActivity {
 
     private void initNavigationView() {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
+
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout,
+                toolbar, R.string.view_navigation_open, R.string.view_navigation_close);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.navigation);
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                drawerLayout.closeDrawers();
+                switch (item.getItemId()) {
+                    case R.id.actionNavigationItem:
+                        showNotificationTab();
+                }
+
+                return true;
+            }
+        });
+    }
+
+    private void showNotificationTab() {
+        viewPager.setCurrentItem(Constant.TAB_TWO);
     }
 }
