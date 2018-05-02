@@ -1,4 +1,4 @@
-package ru.spluft.remindemeandroidapp;
+package ru.spluft.remindmeandroidapp;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

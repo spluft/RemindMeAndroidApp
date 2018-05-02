@@ -1,4 +1,4 @@
-package ru.spluft.remindemeandroidapp;
+package ru.spluft.remindmeandroidapp;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -46,6 +46,5 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         toolbar.inflateMenu(R.menu.menu);
-        setSupportActionBar(toolbar);
     }
 }

@@ -1,4 +1,4 @@
-package ru.spluft.remindemeandroidapp;
+package ru.spluft.remindmeandroidapp;
 
 import org.junit.Test;
 
