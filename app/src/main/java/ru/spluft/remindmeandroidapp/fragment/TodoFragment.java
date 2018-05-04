@@ -12,7 +12,7 @@ import ru.spluft.remindmeandroidapp.R;
 
 public class TodoFragment extends AbstractTabFragment {
 
-    private static final int LAYOUT = R.layout.fragment_example;
+    private static final int LAYOUT = R.layout.fragment_todo;
 
     public static TodoFragment getInstance(Context context) {
         Bundle bundle = new Bundle();

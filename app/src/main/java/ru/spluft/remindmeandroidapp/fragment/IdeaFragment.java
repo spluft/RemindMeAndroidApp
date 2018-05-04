@@ -12,7 +12,7 @@ import ru.spluft.remindmeandroidapp.R;
 
 public class IdeaFragment extends AbstractTabFragment {
 
-    private static final int LAYOUT = R.layout.fragment_example;
+    private static final int LAYOUT = R.layout.fragment_idea;
 
     public static IdeaFragment getInstance(Context context) {
         Bundle bundle = new Bundle();

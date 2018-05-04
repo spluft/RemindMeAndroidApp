@@ -12,7 +12,7 @@ import ru.spluft.remindmeandroidapp.R;
 
 public class HistoryFragment extends AbstractTabFragment {
 
-    private static final int LAYOUT = R.layout.fragment_example;
+    private static final int LAYOUT = R.layout.fragment_history;
 
     public static HistoryFragment getInstance(Context context) {
         Bundle bundle = new Bundle();
