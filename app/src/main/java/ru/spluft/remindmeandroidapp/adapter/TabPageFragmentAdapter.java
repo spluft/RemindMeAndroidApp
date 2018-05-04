@@ -1,46 +1,52 @@
 package ru.spluft.remindmeandroidapp.adapter;
 
+import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import ru.spluft.remindmeandroidapp.fragment.ExampleFragment;
+import java.util.HashMap;
+import java.util.Map;
+
+import ru.spluft.remindmeandroidapp.fragment.AbstractTabFragment;
+import ru.spluft.remindmeandroidapp.fragment.BirthdayFragment;
+import ru.spluft.remindmeandroidapp.fragment.HistoryFragment;
+import ru.spluft.remindmeandroidapp.fragment.IdeaFragment;
+import ru.spluft.remindmeandroidapp.fragment.TodoFragment;
 
 public class TabPageFragmentAdapter extends FragmentPagerAdapter {
 
-    private String[] tabs;
+    private Map<Integer, AbstractTabFragment> tabs;
+    private Context context;
 
-    public TabPageFragmentAdapter(FragmentManager fm) {
+    public TabPageFragmentAdapter(Context context, FragmentManager fm) {
         super(fm);
-        tabs = new String[] {
-                "Tab 1",
-                "Напоминания",
-                "Tab 3"
-        };
+        this.context = context;
+        initTabsMap(context);
     }
 
     @Nullable
     @Override
     public CharSequence getPageTitle(int position) {
-        return tabs[position];
+        return tabs.get(position).getTitle();
     }
 
     @Override
     public Fragment getItem(int position) {
-        switch (position) {
-            case 0:
-                return ExampleFragment.getInstance();
-            case 1:
-                return ExampleFragment.getInstance();
-            case 2:
-                return ExampleFragment.getInstance();
-        }
-        return null;
+        return tabs.get(position);
     }
 
     @Override
     public int getCount() {
-        return tabs.length;
+        return tabs.size();
+    }
+
+    private void initTabsMap(Context context) {
+        tabs = new HashMap<>();
+        tabs.put(0, HistoryFragment.getInstance(context));
+        tabs.put(1, IdeaFragment.getInstance(context));
+        tabs.put(2, TodoFragment.getInstance(context));
+        tabs.put(3, BirthdayFragment.getInstance(context));
     }
 }
