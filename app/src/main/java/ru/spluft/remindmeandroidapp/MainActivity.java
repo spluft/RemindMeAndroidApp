@@ -1,5 +1,6 @@
 package ru.spluft.remindmeandroidapp;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -15,7 +16,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import ru.spluft.remindmeandroidapp.adapter.TabPageFragmentAdapter;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.web.client.RestTemplate;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import ru.spluft.remindmeandroidapp.adapter.TabsFragmentAdapter;
+import ru.spluft.remindmeandroidapp.dto.RemindDTO;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -24,7 +32,8 @@ public class MainActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private DrawerLayout drawerLayout;
     private ViewPager viewPager;
-    private TabLayout tabLayout;
+
+    private TabsFragmentAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,13 +73,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initTabs() {
-        viewPager = findViewById(R.id.viewPager);
-        tabLayout = findViewById(R.id.tabLayout);
+        viewPager = (ViewPager) findViewById(R.id.viewPager);
+        adapter = new TabsFragmentAdapter(getApplicationContext(), getSupportFragmentManager(), new ArrayList<RemindDTO>());
+        viewPager.setAdapter(adapter);
 
-        TabPageFragmentAdapter tabAdapter = new TabPageFragmentAdapter(this, getSupportFragmentManager());
-        viewPager.setAdapter(tabAdapter);
+        new RemindMeTask().execute();
+
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabLayout);
         tabLayout.setupWithViewPager(viewPager);
-
 
     }
 
@@ -100,5 +110,24 @@ public class MainActivity extends AppCompatActivity {
 
     private void showNotificationTab() {
         viewPager.setCurrentItem(Constant.TAB_TWO);
+    }
+
+    private class RemindMeTask extends AsyncTask<Void, Void, RemindDTO> {
+
+        @Override
+        protected RemindDTO doInBackground(Void... params) {
+            RestTemplate template = new RestTemplate();
+            template.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+
+            return template.getForObject(Constant.URL.GET_REMIND, RemindDTO.class);
+        }
+
+        @Override
+        protected void onPostExecute(RemindDTO remindDTO) {
+            List<RemindDTO> data = new ArrayList<>();
+            data.add(remindDTO);
+
+            adapter.setData(data);
+        }
     }
 }

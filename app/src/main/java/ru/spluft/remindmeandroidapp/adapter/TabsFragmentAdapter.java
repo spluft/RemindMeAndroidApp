@@ -7,26 +7,32 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import ru.spluft.remindmeandroidapp.dto.RemindDTO;
 import ru.spluft.remindmeandroidapp.fragment.AbstractTabFragment;
 import ru.spluft.remindmeandroidapp.fragment.BirthdayFragment;
 import ru.spluft.remindmeandroidapp.fragment.HistoryFragment;
 import ru.spluft.remindmeandroidapp.fragment.IdeaFragment;
 import ru.spluft.remindmeandroidapp.fragment.TodoFragment;
 
-public class TabPageFragmentAdapter extends FragmentPagerAdapter {
+public class TabsFragmentAdapter extends FragmentPagerAdapter {
 
     private Map<Integer, AbstractTabFragment> tabs;
     private Context context;
 
-    public TabPageFragmentAdapter(Context context, FragmentManager fm) {
+    private List<RemindDTO> data;
+
+    private HistoryFragment historyFragment;
+
+    public TabsFragmentAdapter(Context context, FragmentManager fm, List<RemindDTO> data) {
         super(fm);
+        this.data = data;
         this.context = context;
         initTabsMap(context);
     }
 
-    @Nullable
     @Override
     public CharSequence getPageTitle(int position) {
         return tabs.get(position).getTitle();
@@ -44,9 +50,15 @@ public class TabPageFragmentAdapter extends FragmentPagerAdapter {
 
     private void initTabsMap(Context context) {
         tabs = new HashMap<>();
-        tabs.put(0, HistoryFragment.getInstance(context));
+        historyFragment = HistoryFragment.getInstance(context, data);
+        tabs.put(0, historyFragment);
         tabs.put(1, IdeaFragment.getInstance(context));
         tabs.put(2, TodoFragment.getInstance(context));
         tabs.put(3, BirthdayFragment.getInstance(context));
+    }
+
+    public void setData(List<RemindDTO> data) {
+        this.data = data;
+        historyFragment.refreshList(data);
     }
 }
